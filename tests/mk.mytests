@@ -1,0 +1,28 @@
+#!/bin/sh
+# $Id: mk.mytests, v 1.1 2015-07-22 17:01:00-08 - - $
+rm out
+./keyvalue <test1.in >run1.stdin 2>&1
+./keyvalue <test2.in >run2.stdin 2>&1
+./keyvalue test1.in >run3.files 2>&1
+./keyvalue test2.in >run4.files 2>&1
+./keyvalue test3.in >run5.files 2>&1
+./keyvalue test*in >run6.files 2>&1
+./keyvalue /no/such no//file/either >run7.nofiles 2>&1
+valgrind keyvalue test*.in >valgrind.out 2>&1
+#diff run1.stdin ../sample-output/run1.stdin >>out #>out1.summary
+#diff run2.stdin ../sample-output/run2.stdin >>out #>out2.summary
+#diff run3.files ../sample-output/run3.files >>out #>out3.summary
+#diff run4.files ../sample-output/run4.files >>out #>out4.summary
+#diff run5.files ../sample-output/run5.files >>out #>out5.summary
+#diff run6.files ../sample-output/run6.files >>out #>out6.summary
+#diff run7.nofiles ../sample-output/run7.nofiles >>out #>out7.summary
+#diff valgrind.out ../sample-output/valgrind.out >>out #>outv.summary
+diff -y run1.stdin ../sample-output/run1.stdin >>out #>out1y.summary
+diff -y run2.stdin ../sample-output/run2.stdin >>out #>out2y.summary
+diff -y run3.files ../sample-output/run3.files >>out #>out3y.summary
+diff -y run4.files ../sample-output/run4.files >>out #>out4y.summary
+diff -y run5.files ../sample-output/run5.files >>out #>out5y.summary
+diff -y run6.files ../sample-output/run6.files >>out #>out6y.summary
+diff -y run7.nofiles ../sample-output/run7.nofiles >>out #>out7y.summary
+diff -y valgrind.out ../sample-output/valgrind.out >>out #>outvy.summary
+cat out
